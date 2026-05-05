@@ -10,6 +10,13 @@ const PORT = Number(process.env.PORT) || 3000;
 
 app.use(express.json());
 
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+  credentials: true
+}));
+
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
@@ -20,10 +27,6 @@ app.get("/health", (req: Request, res: Response) => {
 
 app.use("/tasks", taskRoutes);
 app.use("/categories", categoryRoutes);
-
-app.use(cors({
-  origin: 'http://localhost:5173'
-}))
 
 async function startServer(): Promise<void> {
   try {
