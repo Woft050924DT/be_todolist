@@ -2,20 +2,29 @@ import express, { Express, Request, Response } from "express";
 import { connectDB } from "../config/dbConfig";
 import taskRoutes from "./routes/taskRoutes";
 import categoryRoutes from "./routes/categoryRoutes";
+import subTaskRoutes from "./routes/subTaskRoute";
 import { initializeTaskSchema } from "./services/taskService";
-import cors from 'cors';
+import cors from "cors";
 
 const app: Express = express();
 const PORT = Number(process.env.PORT) || 3000;
 
 app.use(express.json());
 
-app.use(cors({
-  origin: 'http://localhost:5173',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: [
+      "Origin",
+      "X-Requested-With",
+      "Content-Type",
+      "Accept",
+      "Authorization",
+    ],
+    credentials: true,
+  }),
+);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
@@ -27,6 +36,7 @@ app.get("/health", (req: Request, res: Response) => {
 
 app.use("/tasks", taskRoutes);
 app.use("/categories", categoryRoutes);
+app.use("/subtasks", subTaskRoutes);
 
 async function startServer(): Promise<void> {
   try {
@@ -38,6 +48,7 @@ async function startServer(): Promise<void> {
       console.log(`Health check: http://localhost:${PORT}/health`);
       console.log(`Tasks API: http://localhost:${PORT}/tasks`);
       console.log(`Categories API: http://localhost:${PORT}/categories`);
+      console.log(`Subtasks API: http://localhost:${PORT}/subtasks`);
     });
   } catch (error) {
     console.error("Failed to start server:", error);

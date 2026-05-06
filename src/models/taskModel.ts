@@ -66,3 +66,9 @@ export interface TaskListFilters {
   search?: string;
   includeRelated?: boolean;
 }
+
+
+export interface SubTaskFilters {
+  taskId: number;
+  includeRelated?: boolean;
+}
